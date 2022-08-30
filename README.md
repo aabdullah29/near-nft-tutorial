@@ -293,7 +293,24 @@ this will give the all accounts and their distribution
 7. `mint.rs`:
 8. `nft_core.rs`:
 9. `royalty.rs`:
-10. `tests.rs`:
+10. `tests.rs`: 
+    run test `cargo tset`, in this file 13 test function exists <br>
+    1st we create context using `get_context` method and we can get metadata using `sample_token_metadata` method
+
+    1. test_default - should_panic: access contract without initialize
+    2. test_new_account_contract: init contract and access
+    3. test_mint_nft: mint new nft and test minting
+    4. test_internal_transfer: transfer nft from one account to other
+    5. test_nft_approve: give approval to other account
+    6. test_nft_revoke: give nft approval and then revoke using 'revoke' method
+    7. test_revoke_all: give nft approval and then revoke using 'revoke_all' method 
+    8. test_internal_remove_token_from_owner: test internal method for revoke token
+    9. test_nft_payout: test the 'nft_payout' which use for royalty distribution
+    10. test_nft_total_supply: check the totel minted nfts
+    11. events::tests::nep_format_mint
+    12. events::tests::nep_format_vector
+    13. events::tests::nep_format_transfer_all_fields
+
 
 
 ## imports:
@@ -309,28 +326,73 @@ near-sdk::collection array and map
 4. `use near_sdk::json_types::{Base64VecU8, U128};` <br>
 use for get large integers as JSON string
 
-6. `use near_sdk::serde::{Deserialize, Serialize};` <br>
+5. `use near_sdk::serde::{Deserialize, Serialize};` <br>
 use for JSON serialization and deserialization
 
-7. `use near_sdk::{env, near_bindgen, AccountId, Balance, CryptoHash, PanicOnDefault, Promise, PromiseOrValue,};` <br>
+6. `use near_sdk::{env, near_bindgen, AccountId, Balance, CryptoHash, PanicOnDefault, Promise, PromiseOrValue,};` <br>
 some utility methods and properties
 
-## traits:
-
-## struct:
-
-## functions:
 
 
 # Explain market-contract:
 ## `.rs` files:
 1. `external.rs`:
+    In this file create a trait `trait ExtContract` which have 1 method defination `nft_transfer_payout` that use for initiate a cross contract call to the nft contract. This will transfer the token to the buyer and return a payout object used for the market to distribute royalty funds to the appropriate accounts.
+
+
 2. `internal.rs`:
+    This file have 2 methods:
+    1. hash_account_id: used to generate a unique prefix in our storage collections
+    2. internal_remove_sale: implement contract `impl Contract` and add 1 internal method `nternal_remove_sale` for removing a sale from the market. This returns the previously removed sale object
+
+
 3. `lib.rs`:
+    This file have the initialization methord and imports all external crates from `std` and `near_sdk` and also import all internal files in this file whic we use in all other files of thes project. <br>
+    1. create 2 struct `struct Payout` use of royalty and `struct Contract` which is the main struct use for store all the information
+    2. create enum `enum StorageKey` use for keys of the persistent collections
+    3. implement the contract `impl Contract` and add 5 function in contract struct
+        1. init: initialization function (can only be called once)
+        2. storage_deposit: payable method that allows users to deposit storage. When user wants to add a new sale 1st he will pay for the storage and an optional account ID is for users can pay for storage for other people.
+        3. storage_withdraw: payable method allows users to withdraw thier storage deposit
+        4. storage_minimum_balance: return the minimum storage for sale
+        5. storage_balance_of: return how much storage an account has paid for
+
 4. `nft_callbacks.rs`:
+    This file have `nft_on_approve` method which use for add new sale (list new NFT). <br>
+    1. This have 1 struct `struct SaleArgs` which use for get the sale nft price
+    2. Have a trait `trait NonFungibleTokenApprovalsReceiver` and this trait have a methor defination `nft_on_approve`
+    3. implemet that trat for contract ctruct `impl NonFungibleTokenApprovalsReceiver for Contract` and add 1 method in Contract. This method used as the callback from the NFT contract. When `nft_approve is` called, it will fire a cross contract call to this marketplace and this is the function `nft_on_approve` that is invoked
+
 5. `sale_views.rs`:
+    This file is about view related methods. In this file implement the `impl Contract` with 6 functions:
+    1. get_supply_sales: return the number of sales that market have
+    2. get_supply_by_owner_id: retun the total number of sale which belongs to the given account
+    3. get_sales_by_owner_id: return the `Vec<Sale>` means retuen the list of listed nft which belongs to the given account
+    4. get_supply_by_nft_contract_id: retun the total number of sale which belongs to the given contract
+    5. get_sales_by_nft_contract_id: return the `Vec<Sale>` means retuen the list of listed nft which belongs to the given contract 
+    6. get_sale: this function give the `Sale` detail of given NFT address(nft-contract-address.token-id)
+
 6. `sale.rs`:
+    Perfome all sale related functionality.
+    1. This file have a struct `Sale` which holds important information about each sale on the market.
+    2. And have a trait `trait ExtSelf` which have `resolve_purchase` method defination which use for resolve the promise when calling `nft_transfer_payout`. It's check that everything is fine otherwise it's refund.
+    3. implement the `impl Contract` with 5 functions:
+        1. remove_sale: remove NFT from sale
+        2. update_price: update the prive of Listed NFT
+        3. offer: use for buy an NFT this function use `process_purchase` and then use `resolve_purchase` for buying NFT
+        4. process_purchase: private function call from `offer` this will remove the sale, transfer and get the payout from the nft contract, and then distribute royalties and use `resolve_purchase` method for resolve the promise
+        5. resolve_purchase: private method used to resolve the promise when calling `nft_transfer_payout` this function call from `process_purchase` function
+
 7. `tests.rs`:
+    run test `cargo tset`, in this file 7 test function exists <br>
+    1st we create context using `get_context` method
+    1. test_default - should_panic: access contract without initialize
+    2. test_storage_deposit_insufficient_deposit: attach some wrond amount for storage
+    3. test_storage_deposit: init contract and test the storage
+    4. test_storage_balance_of: test the amount that give by an account for storage
+    5. test_storage_withdraw: give som eamount for storage and test
+    6. test_remove_sale: add an NFT for sale and then remove it from sale
+    7. test_update_price: add an NFT for sale and then update it's price
 
 
 ## imports:
@@ -347,14 +409,9 @@ use for get large integers as JSON string
 use for JSON serialization and deserialization
 
 
-4. `use near_sdk::{assert_one_yocto, env, ext_contract, near_bindgen, AccountId, Balance, Gas, PanicOnDefault, Promise, CryptoHash, BorshStorageKey,};` <br>
+5. `use near_sdk::{assert_one_yocto, env, ext_contract, near_bindgen, AccountId, Balance, Gas, PanicOnDefault, Promise, CryptoHash, BorshStorageKey,};` <br>
  some utility methods and properties
 
-5. `use std::collections::HashMap;` <br>
+6. `use std::collections::HashMap;` <br>
 use std collections for Deserialize, Serialize because near-sdk::collection don't implement serde
 
-## traits:
-
-## struct:
-
-## functions:
