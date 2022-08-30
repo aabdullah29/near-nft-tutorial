@@ -2,21 +2,21 @@
 #### Repo [Link](https://github.com/near-examples/nft-tutorial)
 
 In this example 5 main folder exist.
-## 1. integration-tests:
+### 1. integration-tests:
 In this folder 2 projects are prasent. 1st is in `rust` and this project is about integration tests.
 2nd is in `typescript` and this project is also about integration tests.
-## 2. market-contract:
+### 2. market-contract:
 In this project write near nft marketplace contract in rust.
-## 3. nft-contract:
+### 3. nft-contract:
 In this project write near nft contract in rust.
-## 4. nft-series:
+### 4. nft-series:
 This the updated project of `nft-contract`
-## 5. out :
+### 5. out :
 In this folder all `.wasm` files are present. When we build the near contract a `.wasm` file is created and we deploy
 these file on near blockchain.
 
 
-# setup:
+## setup:
 clone this project and `cd near-nft-tutorial`
 1. install near-cli `npm install -g near-cli` [Link](https://docs.near.org/tools/near-cli#setup)
 2. install wasm32-unknown-unknown `rustup target add wasm32-unknown-unknown`
@@ -27,7 +27,7 @@ clone this project and `cd near-nft-tutorial`
     Near: test-market.testnet
     unique pride legend rocket island civil melody symptom hand report future elbow
 
-# build and deploy nft-contract:
+## build and deploy nft-contract:
 1. lonin in 'tset-nft.testnet' account in console `near login`
 2. check account stste `near state tset-nft.testnet`
 3. create sub account `near create-account sub.tset-nft.testnet --masterAccount sub.tset-nft.testnet`
@@ -35,7 +35,7 @@ clone this project and `cd near-nft-tutorial`
 5. deploy contract `near deploy --accountId sub.tset-nft.testnet --wasmFile out/main.wasm `
 6. if we want to redeploy then first we delete sub account `near delete sub.tset-nft.testnet`
 
-# build and deploy marketplace-contract:
+## build and deploy marketplace-contract:
 1. lonin in 'test-market.testnet' account in console `near login`
 2. check account stste `near state test-market.testnet`
 3. create sub account `near create-account sub.test-market.testnet --masterAccount test-market.testnet`
@@ -197,11 +197,11 @@ we can get approval id using `nft_token` and can transfer with out giving the `a
 `near view sub.tset-nft.testnet nft_payout '{"token_id": "token-5", "balance": "5000000000000000000000000", "max_len_payout": 7}'`
 this will give the all accounts and their distribution
 
-## royalty test:
+# royalty test:
+### 1stowner:
 #### mint:
 `near call --accountId example-status-msg.testnet sub.tset-nft.testnet nft_mint '{"token_id": "token-5", "metadata": {"title": "My NFT Token 5", "description": "Mint NFT token for test Roylty on example-status-msg.testnet ;)", "media": "https://miro.medium.com/max/775/0*rZecOAy_WVr16810"}, "receiver_id": "example-status-msg.testnet", "perpetual_royalties": {"example-status-msg.testnet":50}}' --amount 0.1`
 
-### 1stowner:
 #### pay storage fee:
 `near call --accountId example-status-msg.testnet sub.test-market.testnet storage_deposit '{"account_id": "example-status-msg.testnet"}' --depositYocto 10000000000000000000000`
 
@@ -298,10 +298,15 @@ this will give the all accounts and their distribution
 
 ## imports:
 `use std::collections::HashMap;` // use std collections for Deserialize, Serialize because near-sdk::collection don't implement serde
+
 `use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};` // use for binary serialization and deserialization
+
 `use near_sdk::collections::{LazyOption, LookupMap, UnorderedMap, UnorderedSet};` // near-sdk::collection array and map
+
 `use near_sdk::json_types::{Base64VecU8, U128};` // use for get large integers as JSON string
+
 `use near_sdk::serde::{Deserialize, Serialize};` // use for JSON serialization and deserialization
+
 `use near_sdk::{env, near_bindgen, AccountId, Balance, CryptoHash, PanicOnDefault, Promise, PromiseOrValue,};` // some utility methods and properties
 
 ## traits:
@@ -324,10 +329,15 @@ this will give the all accounts and their distribution
 
 ## imports:
 `use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};` // use for binary serialization and deserialization
+
 `use near_sdk::collections::{LookupMap, UnorderedMap, UnorderedSet};` // near-sdk::collection array and map
+
 `use near_sdk::json_types::{U128, U64};` // use for get large integers as JSON string
+
 `use near_sdk::serde::{Deserialize, Serialize};` // use for JSON serialization and deserialization
+
 `use near_sdk::{assert_one_yocto, env, ext_contract, near_bindgen, AccountId, Balance, Gas, PanicOnDefault, Promise, CryptoHash, BorshStorageKey,};` // some utility methods and properties
+
 `use std::collections::HashMap;` // use std collections for Deserialize, Serialize because near-sdk::collection don't implement serde
 
 ## traits:
