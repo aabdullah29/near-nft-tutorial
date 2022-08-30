@@ -21,10 +21,10 @@ clone this project and `cd near-nft-tutorial`
 1. install near-cli `npm install -g near-cli` [Link](https://docs.near.org/tools/near-cli#setup)
 2. install wasm32-unknown-unknown `rustup target add wasm32-unknown-unknown`
 3. create 2 new wallet [Link](https://wallet.testnet.near.org/)
-    Near: tset-nft.testnet
+    **Near: tset-nft.testnet**
     monkey view oppose asthma shock border crisp across since strategy gaze clown
 
-    Near: test-market.testnet
+    **Near: test-market.testnet**
     unique pride legend rocket island civil melody symptom hand report future elbow
 
 ## build and deploy nft-contract:
@@ -47,77 +47,77 @@ clone this project and `cd near-nft-tutorial`
 # test marketplace-contract using near-cli:
 
 ### init:
-`near call sub.test-market.testnet new '{"owner_id": "sub.test-market.testnet"}' --accountId sub.test-market.testnet`
+`near call sub.test-market.testnet new '{"owner_id": "sub.test-market.testnet"}' --accountId sub.test-market.testnet` <br>
 this will initiate the `marketplace-contract`
 
 ###  get total sale:
-`near view sub.test-market.testnet get_supply_sales ''`
+`near view sub.test-market.testnet get_supply_sales ''` <br>
 this will give the total number of sale
 
 ### get number of nft on sale by single users:
-`near view sub.test-market.testnet get_supply_by_owner_id '{"account_id": "any-account.testnet"}'`
+`near view sub.test-market.testnet get_supply_by_owner_id '{"account_id": "any-account.testnet"}'` <br>
 this will give the total number of sale against the given user
 
 ### get list of nft on sale by single users:
-`near view sub.test-market.testnet get_sales_by_owner_id '{"account_id": "test-market.testnet", "from_index": "0", "limit": 10}'`
+`near view sub.test-market.testnet get_sales_by_owner_id '{"account_id": "test-market.testnet", "from_index": "0", "limit": 10}'` <br>
 this will give the list of nft against the given user address
 
 ### get number of nft belong to a nft contract:
-`near view sub.test-market.testnet get_supply_by_nft_contract_id '{"nft_contract_id": "nft-contract.testnet"}'`
+`near view sub.test-market.testnet get_supply_by_nft_contract_id '{"nft_contract_id": "nft-contract.testnet"}'` <br>
 this will give the total number of sale against the given nft-contract address
 
 ### get list of nft on sale by single nft-contract address:
-`near view sub.test-market.testnet get_sales_by_nft_contract_id '{"nft_contract_id": "sub.tset-nft.testnet", "from_index": "0", "limit": 10}'`
+`near view sub.test-market.testnet get_sales_by_nft_contract_id '{"nft_contract_id": "sub.tset-nft.testnet", "from_index": "0", "limit": 10}'` <br>
 this will give the list of nft against the given nft-contract address
 
 ### get specific sale:
-`near view sub.test-market.testnet get_sale '{"nft_contract_token": "contract_id.token_id"}'`
-this will give the specific sale details we will give the `nft-contract-address.token-id` 
+`near view sub.test-market.testnet get_sale '{"nft_contract_token": "contract_id.token_id"}'` <br>
+this will give the specific sale details we will give the `nft-contract-address.token-id` <br>
 we can get the aproval id from this method
 
 ### pay and get storage:
-`near call --accountId test-market.testnet sub.test-market.testnet storage_deposit '{"account_id": "test-market.testnet"}' --depositYocto 10000000000000000000000`
+`near call --accountId test-market.testnet sub.test-market.testnet storage_deposit '{"account_id": "test-market.testnet"}' --depositYocto 10000000000000000000000` <br>
 if we want to list  an nft in marketplace then first we will pay some storage fee using this method
 
 ### refund storage:
-`near call --accountId test-market.testnet sub.test-market.testnet storage_withdraw '' --depositYocto 1`
+`near call --accountId test-market.testnet sub.test-market.testnet storage_withdraw '' --depositYocto 1` <br>
 we can get funds back after remove the sale 
 
 ### get storage fee:
-`near view sub.test-market.testnet storage_minimum_balance ''`
+`near view sub.test-market.testnet storage_minimum_balance ''` <br>
 get the storage fee for list or sale nft using nft-contract
 
 ### get current storage balance:
-`near view sub.test-market.testnet storage_balance_of '{"account_id": "test-market.testnet"}'`
+`near view sub.test-market.testnet storage_balance_of '{"account_id": "test-market.testnet"}'` <br>
 get current balane which we pay to the nft contract for the storage
 
 ### add new sale or list nft:
-we can add new sale using `nft_on_approve` and this will call from `nft-contract` method `nft_approve`
-we will give the approval to the `marketplace-contract` and pass a `msg` that msg will hold the nft price.
+we can add new sale using `nft_on_approve` and this will call from `nft-contract` method `nft_approve` <br>
+we will give the approval to the `marketplace-contract` and pass a `msg` that msg will hold the nft price. <br>
 for list or sale see the `nft_approve` method
 
 ### remove sale:
-`near call --accountId sub.test-market.testnet sub.test-market.testnet remove_sale '{"nft_contract_id": "nft-contract.testnet", "token_id": "nay-token-id"}' --depositYocto 1`
+`near call --accountId sub.test-market.testnet sub.test-market.testnet remove_sale '{"nft_contract_id": "nft-contract.testnet", "token_id": "nay-token-id"}' --depositYocto 1` <br>
 we can remove the sale using this method
 
 ### update sale price:
-`near call --accountId test-market.testnet sub.test-market.testnet update_price '{"nft_contract_id": "sub.tset-nft.testnet", "token_id": "token-1", "price": "2000000000000000000000000"}' --depositYocto 1`
+`near call --accountId test-market.testnet sub.test-market.testnet update_price '{"nft_contract_id": "sub.tset-nft.testnet", "token_id": "token-1", "price": "2000000000000000000000000"}' --depositYocto 1` <br>
 we can update the sale price using this method
 
 ### buy nft:
-`near call --accountId tset-nft.testnet sub.test-market.testnet offer '{"nft_contract_id": "sub.tset-nft.testnet", "token_id": "token-1"}' --amount 2 --gas 200428073043512`
-if we want to buy the nft then we will use the offer method 
+`near call --accountId tset-nft.testnet sub.test-market.testnet offer '{"nft_contract_id": "sub.tset-nft.testnet", "token_id": "token-1"}' --amount 2 --gas 200428073043512` <br>
+if we want to buy the nft then we will use the offer method <br>
 this method get a veri high gass fee because in this method some `cross contract call` happens like `nft_transfer_payout` and `nft_approve`
 
 
 # test nft-contract using near-cli:
 
 ### init:
-`near call sub.tset-nft.testnet new_default_meta '{"owner_id": "sub.tset-nft.testnet"}' --accountId sub.tset-nft.testnet`
+`near call sub.tset-nft.testnet new_default_meta '{"owner_id": "sub.tset-nft.testnet"}' --accountId sub.tset-nft.testnet` <br>
 this will initiate the `nft-contract`, we can also use `new` instead of `new_default_meta`
 
 ### view:
-`near view sub.tset-nft.testnet nft_metadata`
+`near view sub.tset-nft.testnet nft_metadata` <br>
 this will show the metedata values
 
 ### mint:
@@ -127,57 +127,57 @@ this will show the metedata values
 
 `near call --accountId test-market.testnet sub.tset-nft.testnet nft_mint '{"token_id": "token-3", "metadata": {"title": "My NFT Token 3", "description": "Mint NFT token for test on 2nd account ;)", "media": "https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png"}, "receiver_id": "test-market.testnet"}' --amount 0.1`
 
-`near call --accountId test-market.testnet sub.tset-nft.testnet nft_mint '{"token_id": "token-4", "metadata": {"title": "My NFT Token 4", "description": "Mint NFT token for test on 2nd account ;)", "media": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"}, "receiver_id": "test-market.testnet"}' --amount 0.1`
+`near call --accountId test-market.testnet sub.tset-nft.testnet nft_mint '{"token_id": "token-4", "metadata": {"title": "My NFT Token 4", "description": "Mint NFT token for test on 2nd account ;)", "media": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"}, "receiver_id": "test-market.testnet"}' --amount 0.1` <br>
 
 we can mint the new nft using mint method and pass the 0.1 Near for minting fee and storage fee whic will use the nft
 
 ### mint with royalty:
-`near call --accountId example-status-msg.testnet sub.tset-nft.testnet nft_mint '{"token_id": "token-5", "metadata": {"title": "My NFT Token 5", "description": "Mint NFT token for test Roylty on example-status-msg.testnet ;)", "media": "https://miro.medium.com/max/775/0*rZecOAy_WVr16810"}, "receiver_id": "example-status-msg.testnet", "perpetual_royalties": {"example-status-msg.testnet":50}}' --amount 0.1`
+`near call --accountId example-status-msg.testnet sub.tset-nft.testnet nft_mint '{"token_id": "token-5", "metadata": {"title": "My NFT Token 5", "description": "Mint NFT token for test Roylty on example-status-msg.testnet ;)", "media": "https://miro.medium.com/max/775/0*rZecOAy_WVr16810"}, "receiver_id": "example-status-msg.testnet", "perpetual_royalties": {"example-status-msg.testnet":50}}' --amount 0.1` <br>
 we can add the royalty with mint method as a perameter
 
 ### view token:
-`near view sub.tset-nft.testnet nft_token '{"token_id": "token-1"}'`
+`near view sub.tset-nft.testnet nft_token '{"token_id": "token-1"}'` <br>
 this will give the nft token details
 
 ### number of total nfts:
-`near view sub.tset-nft.testnet nft_total_supply ''`
+`near view sub.tset-nft.testnet nft_total_supply ''` <br>
 this will give the total count of minted nfts
 
 ### list of all nfts:
-`near view sub.tset-nft.testnet nft_tokens '{"from_index": "0", "limit": 10}'`
+`near view sub.tset-nft.testnet nft_tokens '{"from_index": "0", "limit": 10}'` <br>
 this will gige the detail of all minted nfts
 
 ### number of against given account:
 `near view sub.tset-nft.testnet nft_supply_for_owner '{"account_id": "test-market.testnet"}'`
-`near view sub.tset-nft.testnet nft_supply_for_owner '{"account_id": "tset-nft.testnet"}'`
+`near view sub.tset-nft.testnet nft_supply_for_owner '{"account_id": "tset-nft.testnet"}'` <br>
 this will give the number of nft against the given account
 
 ### list of against given account:
 `near view sub.tset-nft.testnet nft_tokens_for_owner '{"account_id": "test-market.testnet", "from_index": "0", "limit": 10}'`
-`near view sub.tset-nft.testnet nft_tokens_for_owner '{"account_id": "tset-nft.testnet", "from_index": "0", "limit": 10}'`
+`near view sub.tset-nft.testnet nft_tokens_for_owner '{"account_id": "tset-nft.testnet", "from_index": "0", "limit": 10}'` <br>
 this will give the detail list of all nft against given account
 
 ### detail of single nft by nft id:
-`near view sub.tset-nft.testnet nft_token '{"token_id": "token-1"}'`
-`near view sub.tset-nft.testnet nft_token '{"token_id": "token-5"}'`
+`near view sub.tset-nft.testnet nft_token '{"token_id": "token-1"}'` <br>
+`near view sub.tset-nft.testnet nft_token '{"token_id": "token-5"}'` <br>
 this will give the nft detail against the given nft id
 
 ### give approvel to other user account:
-`near call --accountId test-market.testnet sub.tset-nft.testnet nft_approve '{"token_id": "token-1", "account_id": "contract-example.testnet"}' --depositYocto 360000000000000000000`
-we can give the approvel to other user account and that can sale our nft
-we pay 360000000000000000000 Yocto(0.00036 NEAR) for space
-and when we revoke we get 0.00025933 NEAR as space refund
+`near call --accountId test-market.testnet sub.tset-nft.testnet nft_approve '{"token_id": "token-1", "account_id": "contract-example.testnet"}' --depositYocto 360000000000000000000` <br>
+we can give the approvel to other user account and that can sale our nft <br>
+we pay 360000000000000000000 Yocto(0.00036 NEAR) for space <br>
+and when we revoke we get 0.00025933 NEAR as space refund <br>
 
 ### check the approval:
-`near view sub.tset-nft.testnet nft_is_approved '{"token_id": "token-1", "approved_account_id": "contract-example.testnet"}'`
+`near view sub.tset-nft.testnet nft_is_approved '{"token_id": "token-1", "approved_account_id": "contract-example.testnet"}'` <br>
 this will give true or false against the nft approval
 
 ### revoke approval from specific account:
-`near call --accountId test-market.testnet sub.tset-nft.testnet nft_revoke '{"token_id": "token-1", "account_id": "contract-example.testnet"}' --depositYocto -1`
+`near call --accountId test-market.testnet sub.tset-nft.testnet nft_revoke '{"token_id": "token-1", "account_id": "contract-example.testnet"}' --depositYocto -1` <br>
 this will revoke the approval of specific nft for specified account and refund the space fee
 
 ### revoke approval for all:
-`near call --accountId test-market.testnet sub.tset-nft.testnet nft_revoke_all '{"token_id": "token-1"}' --depositYocto -1`
+`near call --accountId test-market.testnet sub.tset-nft.testnet nft_revoke_all '{"token_id": "token-1"}' --depositYocto -1` <br>
 this will revoke the approval from all account of given token and refund the space fee 
 
 ### nft_transfer_call, nft_on_transfer and nft_resolve_transfer:
@@ -185,20 +185,20 @@ this will revoke the approval from all account of given token and refund the spa
 then refund users funds using `refund_approved_account_ids`
 
 ### transfer:
-`near call --accountId tset-nft.testnet sub.tset-nft.testnet nft_transfer '{"receiver_id": "test-market.testnet", "token_id": "token-1", "memo": "Go Team :)"}' --depositYocto 1`
+`near call --accountId tset-nft.testnet sub.tset-nft.testnet nft_transfer '{"receiver_id": "test-market.testnet", "token_id": "token-1", "memo": "Go Team :)"}' --depositYocto 1` <br>
 transfer nft to other address
 
 ### transfer from approval account:
-`near call --accountId test-market.testnet sub.tset-nft.testnet nft_transfer '{"receiver_id": "tset-nft.testnet", "token_id": "token-1", "approval_id": 2, "memo": "Go Team :)"}' --depositYocto 1`
-approval accout transfer the nft to other accout address
+`near call --accountId test-market.testnet sub.tset-nft.testnet nft_transfer '{"receiver_id": "tset-nft.testnet", "token_id": "token-1", "approval_id": 2, "memo": "Go Team :)"}' --depositYocto 1` <br>
+approval accout transfer the nft to other accout address <br>
 we can get approval id using `nft_token` and can transfer with out giving the `approval_id`
 
 ### check the royalty distribution:
-`near view sub.tset-nft.testnet nft_payout '{"token_id": "token-5", "balance": "5000000000000000000000000", "max_len_payout": 7}'`
+`near view sub.tset-nft.testnet nft_payout '{"token_id": "token-5", "balance": "5000000000000000000000000", "max_len_payout": 7}'` <br>
 this will give the all accounts and their distribution
 
 # royalty test:
-### 1stowner:
+### 1st owner:
 #### mint:
 `near call --accountId example-status-msg.testnet sub.tset-nft.testnet nft_mint '{"token_id": "token-5", "metadata": {"title": "My NFT Token 5", "description": "Mint NFT token for test Roylty on example-status-msg.testnet ;)", "media": "https://miro.medium.com/max/775/0*rZecOAy_WVr16810"}, "receiver_id": "example-status-msg.testnet", "perpetual_royalties": {"example-status-msg.testnet":50}}' --amount 0.1`
 
@@ -232,21 +232,21 @@ this will give the all accounts and their distribution
 `near call --accountId contract-example.testnet sub.tset-nft.testnet nft_approve '{"token_id": "token-5", "account_id": "sub.test-market.testnet", "msg": "{\"sale_conditions\": \"5000000000000000000000000\"}"}' --depositYocto 360000000000000000000`
 
 #### verify sale or list:
-`near view sub.test-market.testnet get_supply_sales ''`
+`near view sub.test-market.testnet get_supply_sales ''`<br>
 `near view sub.test-market.testnet get_sales_by_owner_id '{"account_id": "contract-example.testnet", "from_index": "0", "limit": 10}'`
 
 #### check royalty distribution:
 `near view sub.tset-nft.testnet nft_payout '{"token_id": "token-5", "balance": "5000000000000000000000000", "max_len_payout": 7}'`
 
 #### check account status:
-`near state example-status-msg.testnet` royalty account
+`near state example-status-msg.testnet` royalty account <br>
 `near state contract-example.testnet`
 
 #### buy nft:
 `near call --accountId test-market.testnet sub.test-market.testnet offer '{"nft_contract_id": "sub.tset-nft.testnet", "token_id": "token-5"}' --amount 5 --gas 200428073043512`
 
 #### check account status:
-`near state example-status-msg.testnet` royalty account
+`near state example-status-msg.testnet` royalty account <br>
 `near state contract-example.testnet`
 
 
@@ -258,26 +258,26 @@ this will give the all accounts and their distribution
 `near call --accountId test-market.testnet sub.tset-nft.testnet nft_approve '{"token_id": "token-5", "account_id": "sub.test-market.testnet", "msg": "{\"sale_conditions\": \"5000000000000000000000000\"}"}' --depositYocto 360000000000000000000`
 
 #### verify sale or list:
-`near view sub.test-market.testnet get_supply_sales ''`
+`near view sub.test-market.testnet get_supply_sales ''`<br>
 `near view sub.test-market.testnet get_sales_by_owner_id '{"account_id": "test-market.testnet", "from_index": "0", "limit": 10}'`
 
 #### check royalty distribution:
 `near view sub.tset-nft.testnet nft_payout '{"token_id": "token-5", "balance": "5000000000000000000000000", "max_len_payout": 7}'`
 
 #### check account status:
-`near state example-status-msg.testnet` royalty account
-`near state contract-example.testnet`
-`near state test-market.testnet`
-`near state tset-nft.testnet`
+`near state example-status-msg.testnet` royalty account <br>
+`near state contract-example.testnet`<br>
+`near state test-market.testnet`<br>
+`near state tset-nft.testnet`<br>
 
 #### buy nft:
 `near call --accountId tset-nft.testnet sub.test-market.testnet offer '{"nft_contract_id": "sub.tset-nft.testnet", "token_id": "token-5"}' --amount 5 --gas 200428073043512`
 
 #### check account status:
-`near state example-status-msg.testnet` royalty account
-`near state contract-example.testnet`
-`near state test-market.testnet`
-`near state tset-nft.testnet`
+`near state example-status-msg.testnet` royalty account <br>
+`near state contract-example.testnet`<br>
+`near state test-market.testnet`<br>
+`near state tset-nft.testnet`<br>
 
 
 
@@ -297,17 +297,23 @@ this will give the all accounts and their distribution
 
 
 ## imports:
-`use std::collections::HashMap;` // use std collections for Deserialize, Serialize because near-sdk::collection don't implement serde
+1. `use std::collections::HashMap;` <br>
+use std collections for Deserialize, Serialize because near-sdk::collection don't implement serde
 
-`use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};` // use for binary serialization and deserialization
+2. `use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};` <br>
+use for binary serialization and deserialization
 
-`use near_sdk::collections::{LazyOption, LookupMap, UnorderedMap, UnorderedSet};` // near-sdk::collection array and map
+3. `use near_sdk::collections::{LazyOption, LookupMap, UnorderedMap, UnorderedSet};` <br>
+near-sdk::collection array and map
 
-`use near_sdk::json_types::{Base64VecU8, U128};` // use for get large integers as JSON string
+4. `use near_sdk::json_types::{Base64VecU8, U128};` <br>
+use for get large integers as JSON string
 
-`use near_sdk::serde::{Deserialize, Serialize};` // use for JSON serialization and deserialization
+6. `use near_sdk::serde::{Deserialize, Serialize};` <br>
+use for JSON serialization and deserialization
 
-`use near_sdk::{env, near_bindgen, AccountId, Balance, CryptoHash, PanicOnDefault, Promise, PromiseOrValue,};` // some utility methods and properties
+7. `use near_sdk::{env, near_bindgen, AccountId, Balance, CryptoHash, PanicOnDefault, Promise, PromiseOrValue,};` <br>
+some utility methods and properties
 
 ## traits:
 
@@ -328,17 +334,24 @@ this will give the all accounts and their distribution
 
 
 ## imports:
-`use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};` // use for binary serialization and deserialization
+1. `use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};` <br>
+use for binary serialization and deserialization
 
-`use near_sdk::collections::{LookupMap, UnorderedMap, UnorderedSet};` // near-sdk::collection array and map
+2. `use near_sdk::collections::{LookupMap, UnorderedMap, UnorderedSet};` <br>
+near-sdk::collection array and map
 
-`use near_sdk::json_types::{U128, U64};` // use for get large integers as JSON string
+3. `use near_sdk::json_types::{U128, U64};` <br>
+use for get large integers as JSON string
 
-`use near_sdk::serde::{Deserialize, Serialize};` // use for JSON serialization and deserialization
+4. `use near_sdk::serde::{Deserialize, Serialize};` <br>
+use for JSON serialization and deserialization
 
-`use near_sdk::{assert_one_yocto, env, ext_contract, near_bindgen, AccountId, Balance, Gas, PanicOnDefault, Promise, CryptoHash, BorshStorageKey,};` // some utility methods and properties
 
-`use std::collections::HashMap;` // use std collections for Deserialize, Serialize because near-sdk::collection don't implement serde
+4. `use near_sdk::{assert_one_yocto, env, ext_contract, near_bindgen, AccountId, Balance, Gas, PanicOnDefault, Promise, CryptoHash, BorshStorageKey,};` <br>
+ some utility methods and properties
+
+5. `use std::collections::HashMap;` <br>
+use std collections for Deserialize, Serialize because near-sdk::collection don't implement serde
 
 ## traits:
 
